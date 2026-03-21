@@ -280,6 +280,23 @@ ostream& operator<<(ostream& out,const Cart& obj) {
     }
     return out;
 }
+
+class Review {
+private:
+    static int noReviews;
+    const int id;
+    char* ProductName;
+    float rating;
+    char comment[256];
+    bool isVerified;
+    int helpfulVotes;
+public:
+    Review();
+    Review(char* ProductName,float rating, char* comment, bool isVerified);
+    Review(const Review& obj);
+    Review& operator=(const Review& obj);
+    ~Review();
+};
 int main() {
    return 0;
 }
