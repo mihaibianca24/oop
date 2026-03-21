@@ -144,6 +144,39 @@ public:
     ~Cart();
 };
 int Cart::noCarts=0;
+Cart::Cart() : id(++noCarts) {
+    this->products=nullptr;
+    this->noProducts=0;
+    this->TotalPrice=0.0;
+    this->isCheckedOut=false;
+}
+
+Cart::Cart(const Cart &obj) : id(++noCarts) {
+    this->noProducts=obj.noProducts;
+    this->TotalPrice=obj.TotalPrice;
+    this->isCheckedOut=obj.isCheckedOut;
+    this->products=new Product*[obj.noProducts];
+    for(int i=0;i<obj.noProducts;i++)
+        this->products[i]= new Product(*obj.products[i]);
+}
+Cart& Cart::operator=(const Cart &obj) {
+    if (this==&obj) return *this;
+    for (int i=0;i<this->noProducts;i++)
+        delete this->products[i];
+    delete[] this->products;
+    this->noProducts=obj.noProducts;
+    this->TotalPrice=obj.TotalPrice;
+    this->isCheckedOut=obj.isCheckedOut;
+    this->products=new Product*[obj.noProducts];
+    for (int i=0;i< obj.noProducts;i++)
+        this->products[i]= new Product(*obj.products[i]);
+    return *this;
+}
+Cart::~Cart() {
+    for (int i=0;i<this->noProducts;i++)
+        delete this->products[i];
+    delete[] this->products;
+}
 int main() {
     return 0;
 }
