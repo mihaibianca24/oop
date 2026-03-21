@@ -149,6 +149,7 @@ public:
     int getNoProducts() const;
 
     bool addProduct(Product* product);
+    void removeProduct(int id);
 };
 int Cart::noCarts=0;
 Cart::Cart() : id(++noCarts) {
@@ -207,6 +208,18 @@ bool Cart::addProduct(Product* product) {
     this->noProducts++;
     this->TotalPrice += product-> getPrice();
     return true;
+}
+void Cart::removeProduct(int id) {
+    for (int i=0; i<this->noProducts; i++) {
+        if (this->products[i]->getId() == id) {
+            this->TotalPrice -= this->products[i]->getPrice();
+            delete this->products[i];
+            for (int j=i; j<this->noProducts-1; j++)
+                this->products[j]=this->products[j+1];
+            this->noProducts--;
+            break;
+        }
+    }
 }
 int main() {
     return 0;
