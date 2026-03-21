@@ -152,6 +152,11 @@ public:
     void removeProduct(const char* name);
     double calculateTotal();
     bool checkout();
+
+    Cart& operator+=(Product* product);
+    bool operator!() const;
+
+    friend ostream& operator<<(ostream& out, const Cart& obj);
 };
 int Cart::noCarts=0;
 Cart::Cart() : id(++noCarts) {
@@ -258,38 +263,23 @@ bool Cart::checkout() {
     this->isCheckedOut=true;
     return true;
 }
+Cart& Cart::operator+=(Product* product) {
+    addProduct(product);
+    return *this;
+}
+bool Cart::operator!() const {
+    return this->noProducts==0;
+}
+ostream& operator<<(ostream& out,const Cart& obj) {
+    out << "[Cart #"<<obj.id<<"]"
+        <<"produse: "<<obj.noProducts<<" | "
+        <<"total: "<<obj.TotalPrice<<"lei | "
+        << (obj.isCheckedOut ? "checked-out" : "not checked-out");
+    for (int i=0; i< obj.noProducts; i++) {
+        out<< "\n   "<<*obj.products[i];
+    }
+    return out;
+}
 int main() {
-    char name1[] = "Rose Face Cream";
-    char name2[] = "Red Lipstick";
-    char name3[] = "Parfum Dior";
-
-    Product p1(name1, 150.0, 10);
-    Product p2(name2, 80.0, 5);
-    Product p3(name3, 300.0, 2);
-
-    Cart c1;
-
-    // test addProduct
-    c1.addProduct(&p1);
-    c1.addProduct(&p2);
-    c1.addProduct(&p3);
-    cout << "Produse in cos: " << c1.getNoProducts() << endl;
-    cout << "Total: " << c1.getTotalPrice() << endl;
-
-    // test removeProduct
-    c1.removeProduct("Red Lipstick");
-    cout << "Dupa stergere: " << c1.getNoProducts() << endl;
-    cout << "Total: " << c1.getTotalPrice() << endl;
-
-    // test calculateTotal
-    cout << "Total calculat: " << c1.calculateTotal() << endl;
-
-    // test checkout
-    bool ok = c1.checkout();
-    cout << "Checkout: " << (ok ? "succes" : "esuat") << endl;
-    cout << "isCheckedOut: " << (c1.getIsCheckedOut() ? "da" : "nu") << endl;
-    // test adaugare dupa checkout
-    bool r = c1.addProduct(&p2);
-    cout << "Adaugat dupa checkout: " << (r ? "da" : "nu") << endl;
-    return 0;
+   return 0;
 }
