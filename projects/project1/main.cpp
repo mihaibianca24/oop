@@ -24,6 +24,12 @@ public:
 
     void restock(int quantity);
     bool purchase();
+
+    bool operator==(const Product& other) const;
+    bool operator<(const Product& other) const;
+
+    friend ostream& operator<<(ostream& out, const Product& obj);
+    friend istream& operator>>(istream& in, Product& obj);
 };
 int Product::noProducts=0;
 Product::Product() : id(++noProducts) {
@@ -86,6 +92,40 @@ bool Product::purchase() {
     this->stock--;
     if (this->stock == 0) this->isAvailable=false;
     return true;
+}
+
+bool Product::operator==(const Product& other) const {
+    return strcmp(this->name,other.name)==0;
+}
+bool Product::operator<(const Product& other) const {
+    return this->price < other.price;
+}
+ostream& operator<<(ostream& out, const Product& obj) {
+    out << "[Product #" << obj.id << "] "
+        << obj.name <<"|"
+        << obj.price << "lei |"
+        <<"stock: "<<obj.stock<<"|"
+        <<(obj.isAvailable ? "available" : "not available");
+    return out;
+}
+istream& operator>>(istream& in, Product& obj) {
+    char buff[256];
+
+    cout<< " Name: ";
+    in.getline(buff,256);
+    delete[] obj.name;
+    obj.name=new char[strlen(buff)+1];
+    strcpy(obj.name,buff);
+
+    cout<<" Price: ";
+    in >> obj.price;
+
+    cout<<"Stock: ";
+    in >> obj.stock;
+    in.ignore();
+
+    obj.isAvailable=(obj.stock>0);
+    return in;
 }
 int main() {
     return 0;
