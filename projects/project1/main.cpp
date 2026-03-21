@@ -142,6 +142,11 @@ public:
     Cart(const Cart& obj);
     Cart& operator=(const Cart& obj);
     ~Cart();
+
+    int getId() const;
+    double getTotalPrice() const;
+    bool getIsCheckedOut() const;
+    int getNoProducts() const;
 };
 int Cart::noCarts=0;
 Cart::Cart() : id(++noCarts) {
@@ -176,6 +181,16 @@ Cart::~Cart() {
     for (int i=0;i<this->noProducts;i++)
         delete this->products[i];
     delete[] this->products;
+}
+
+double Cart::getTotalPrice() const {
+    return TotalPrice;
+}
+bool Cart::getIsCheckedOut() const {
+    return isCheckedOut;
+}
+int Cart::getNoProducts() const {
+    return noProducts;
 }
 int main() {
     return 0;
