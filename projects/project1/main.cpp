@@ -149,8 +149,9 @@ public:
     int getNoProducts() const;
 
     bool addProduct(Product* product);
-    void removeProduct(int id);
+    void removeProduct(const char* name);
     double calculateTotal();
+    bool checkout();
 };
 int Cart::noCarts=0;
 Cart::Cart() : id(++noCarts) {
@@ -210,24 +211,85 @@ bool Cart::addProduct(Product* product) {
     this->TotalPrice += product-> getPrice();
     return true;
 }
-void Cart::removeProduct(int id) {
-    for (int i=0; i<this->noProducts; i++) {
-        if (this->products[i]->getId() == id) {
-            this->TotalPrice -= this->products[i]->getPrice();
-            delete this->products[i];
-            for (int j=i; j<this->noProducts-1; j++)
-                this->products[j]=this->products[j+1];
-            this->noProducts--;
+void Cart::removeProduct(const char* name) {
+    int position =-1;
+    for (int i=0;i<this->noProducts;i++) {
+        Product* current= this->products[i];
+        if (strcmp(current->getName(),name)==0)
+        {
+            position=i;
             break;
         }
     }
+    if (position==-1)
+        return;
+    Product* toDelete = this->products[position];
+    this->TotalPrice-=toDelete->getPrice();
+    delete toDelete;
+
+    Product** temp= new Product*[this->noProducts -1];
+
+    int k=0;
+    for (int i=0;i< this->noProducts;i++) {
+        if ( i!= position ) {
+            temp[k]=this->products[i];
+            k++;
+        }
+    }
+    delete[] this->products;
+    this->products=temp;
+    this->noProducts--;
 }
 double Cart::calculateTotal() {
     this->TotalPrice=0.0;
-    for (int i=0;i<this->noProducts;i++)
-        this->TotalPrice += this->products[i]->getPrice();
+    for (int i=0;i<this->noProducts;i++) {
+        Product* current=this->products[i];
+        this->TotalPrice += current->getPrice();
+    }
     return this->TotalPrice;
 }
+bool Cart::checkout() {
+    if (this->isCheckedOut == true || this->noProducts == 0)
+        return false;
+    for (int i=0;i<this->noProducts;i++) {
+        Product* current=this->products[i];
+        current->purchase();
+    }
+    this->isCheckedOut=true;
+    return true;
+}
 int main() {
+    char name1[] = "Rose Face Cream";
+    char name2[] = "Red Lipstick";
+    char name3[] = "Parfum Dior";
+
+    Product p1(name1, 150.0, 10);
+    Product p2(name2, 80.0, 5);
+    Product p3(name3, 300.0, 2);
+
+    Cart c1;
+
+    // test addProduct
+    c1.addProduct(&p1);
+    c1.addProduct(&p2);
+    c1.addProduct(&p3);
+    cout << "Produse in cos: " << c1.getNoProducts() << endl;
+    cout << "Total: " << c1.getTotalPrice() << endl;
+
+    // test removeProduct
+    c1.removeProduct("Red Lipstick");
+    cout << "Dupa stergere: " << c1.getNoProducts() << endl;
+    cout << "Total: " << c1.getTotalPrice() << endl;
+
+    // test calculateTotal
+    cout << "Total calculat: " << c1.calculateTotal() << endl;
+
+    // test checkout
+    bool ok = c1.checkout();
+    cout << "Checkout: " << (ok ? "succes" : "esuat") << endl;
+    cout << "isCheckedOut: " << (c1.getIsCheckedOut() ? "da" : "nu") << endl;
+    // test adaugare dupa checkout
+    bool r = c1.addProduct(&p2);
+    cout << "Adaugat dupa checkout: " << (r ? "da" : "nu") << endl;
     return 0;
 }
