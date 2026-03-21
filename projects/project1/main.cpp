@@ -150,6 +150,7 @@ public:
 
     bool addProduct(Product* product);
     void removeProduct(int id);
+    double calculateTotal();
 };
 int Cart::noCarts=0;
 Cart::Cart() : id(++noCarts) {
@@ -220,6 +221,12 @@ void Cart::removeProduct(int id) {
             break;
         }
     }
+}
+double Cart::calculateTotal() {
+    this->TotalPrice=0.0;
+    for (int i=0;i<this->noProducts;i++)
+        this->TotalPrice += this->products[i]->getPrice();
+    return this->TotalPrice;
 }
 int main() {
     return 0;
