@@ -147,6 +147,8 @@ public:
     double getTotalPrice() const;
     bool getIsCheckedOut() const;
     int getNoProducts() const;
+
+    bool addProduct(Product* product);
 };
 int Cart::noCarts=0;
 Cart::Cart() : id(++noCarts) {
@@ -191,6 +193,20 @@ bool Cart::getIsCheckedOut() const {
 }
 int Cart::getNoProducts() const {
     return noProducts;
+}
+
+bool Cart::addProduct(Product* product) {
+    if (this->isCheckedOut == true)
+        return false;
+    Product** temp= new Product*[this->noProducts + 1];
+    for (int i=0 ; i<this->noProducts ; i++)
+        temp[i]=this->products[i];
+    temp[this->noProducts]=new Product(*product);
+    delete[] this->products;
+    this->products=temp;
+    this->noProducts++;
+    this->TotalPrice += product-> getPrice();
+    return true;
 }
 int main() {
     return 0;
