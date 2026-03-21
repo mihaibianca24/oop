@@ -17,6 +17,10 @@ public:
     ~Product();
 
     int getId() const;
+    char* getName() const;
+    double getPrice() const;
+    bool getIsAvailable() const;
+    int getStock() const;
 };
 int Product::noProducts=0;
 Product::Product() : id(++noProducts) {
@@ -56,6 +60,18 @@ Product::~Product() {
 
 int Product::getId() const {
     return id;
+}
+char* Product::getName() const {
+    return name;
+}
+double Product::getPrice() const {
+    return price;
+}
+bool Product::getIsAvailable() const {
+    return isAvailable;
+}
+int Product::getStock() const {
+    return stock;
 }
 int main() {
     return 0;
