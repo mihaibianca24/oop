@@ -21,6 +21,9 @@ public:
     double getPrice() const;
     bool getIsAvailable() const;
     int getStock() const;
+
+    void restock(int quantity);
+    bool purchase();
 };
 int Product::noProducts=0;
 Product::Product() : id(++noProducts) {
@@ -72,6 +75,17 @@ bool Product::getIsAvailable() const {
 }
 int Product::getStock() const {
     return stock;
+}
+
+void Product::restock(int quantity) {
+    this->stock += quantity;
+    this->isAvailable=true;
+}
+bool Product::purchase() {
+    if (this->stock == 0) return false;
+    this->stock--;
+    if (this->stock == 0) this->isAvailable=false;
+    return true;
 }
 int main() {
     return 0;
