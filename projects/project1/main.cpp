@@ -127,6 +127,23 @@ istream& operator>>(istream& in, Product& obj) {
     obj.isAvailable=(obj.stock>0);
     return in;
 }
+
+class Cart {
+private:
+    static int noCarts;
+    const int id;
+    Product** products;
+    int noProducts;
+    double TotalPrice;
+    bool isCheckedOut;
+
+public:
+    Cart();
+    Cart(const Cart& obj);
+    Cart& operator=(const Cart& obj);
+    ~Cart();
+};
+int Cart::noCarts=0;
 int main() {
     return 0;
 }
