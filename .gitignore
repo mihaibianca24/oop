@@ -72,3 +72,7 @@ vcpkg_installed/
 Testing/
 .cache/
 .vscode/
+.DS_Store
+.idea/
+CMakeLists.txt
+cmake-build-debug/
