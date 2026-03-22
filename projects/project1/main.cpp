@@ -467,7 +467,7 @@ public:
 
     void AddPurchase(float amount);
     void RedeemPoints(long Points);
-    float getAvarageSpend() const;
+    float getAverageSpend() const;
 
     bool operator==(const User& other) const;
     bool operator<(const User& other) const;
@@ -614,7 +614,7 @@ void User::RedeemPoints(long points) {
         this->LoyaltyPoints-=points;
 }
 
-float User::getAvarageSpend() const {
+float User::getAverageSpend() const {
     if ( this-> HistorySize==0)
         return 0.0f;
     float total=0.0f;
@@ -883,6 +883,110 @@ void Menu::productMenu() {
         }
     }
 }
+
+void Menu::userMenu() {
+    while (true) {
+        cout<<"User Menu \n";
+        cout<<"0 - Back\n";
+        cout<<"1 - Create User\n";
+        cout<<"2 - List User\n";
+        cout<<"3 - Edit User\n";
+        cout<<"4 - Remove User\n";
+        cout<<"5 - Add purchase\n";
+        cout<<"6 - Redeem points\n";
+        cout<<"7 - Average spend\n";
+        cout<<"8 - Compare two users\n";
+        cout<<"9 - Sort users by loyalty points\n";
+        cout<<"Option: ";
+
+        int option;
+        cin>>option;
+        cin.ignore;
+
+        switch(option) {
+            case 0:
+                return;
+            case 1: {
+                User* u= new User();
+                cin>> *u;
+                users.push_back(u);
+                cout<<"  User created.\n";
+                break;
+            }
+            case 2:
+                PrintUsers();
+                break;
+            case 3: {
+                int idx = PickUser();
+                if (idx == -1) break;
+                cin >> *users[idx];
+                cout << "  User updated.\n";
+                break;
+            }
+            case 4: {
+                int idx = PickUser();
+                if (idx == -1) break;
+                delete users[idx];
+                users.erase(users.begin() + idx);
+                cout << "  User removed.\n";
+                break;
+            }
+            case 5: {
+                int idx = PickUser();
+                if (idx == -1) break;
+                float amount;
+                cout << "  Amount spent: ";
+                cin >> amount;
+                cin.ignore();
+                users[idx]->AddPurchase(amount);
+                cout << "  Purchase added.\n";
+                break;
+            }
+            case 6: {
+                int idx = PickUser();
+                if (idx == -1) break;
+                long points;
+                cout << "  Points to redeem: ";
+                cin >> points;
+                cin.ignore();
+                users[idx]->RedeemPoints(points);
+                cout << "  Points redeemed.\n";
+                break;
+            }
+            case 7: {
+                int idx = PickUser();
+                if (idx == -1) break;
+                cout << "  Average spend: " << users[idx]->getAverageSpend() << " lei\n";
+                break;
+            }
+            case 8: {
+                cout << "  First user:\n";
+                int a = PickUser();
+                if (a == -1) break;
+                cout << "  Second user:\n";
+                int b = PickUser();
+                if (b == -1) break;
+                if (*users[a] == *users[b])
+                    cout << "  Same user.\n";
+                else
+                    cout << "  Different users.\n";
+                break;
+            }
+            case 9: {
+                for (int i = 0; i < users.size(); i++)
+                    for (int j = 0; j + 1 < users.size() - i; j++)
+                        if (*users[j + 1] < *users[j])
+                            swap(users[j], users[j + 1]);
+                cout << "  Users sorted by loyalty points.\n";
+                PrintUsers();
+                break;
+            }
+            default:
+                cout<<"Invalid option.\n";
+        }
+    }
+}
+
 int main() {
    return 0;
 }
