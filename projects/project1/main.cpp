@@ -987,6 +987,95 @@ void Menu::userMenu() {
     }
 }
 
+void Menu::reviewMenu() {
+    while (true) {
+        cout<<"Review Menu \n";
+        cout<<"0 - Back\n";
+        cout<<"1 - Create Review\n";
+        cout<<"2 - List Reviews\n";
+        cout<<"3 - Edit Review\n";
+        cout<<"4 - Remove Review\n";
+        cout<<"5 - Mark Review as Helpful\n";
+        cout<<"6 - Check if review is positive\n";
+        cout<<"7 - Compare two reviews\n";
+        cout<<"8 - Sort reviews by review points\n";
+        cout<<"Option: ";
+
+        int option;
+        cin>>option;
+        cin.ignore();
+
+        switch (option) {
+            case 0:
+                return;
+            case 1: {
+                Review* r = new Review();
+                cin >> *r;
+                reviews.push_back(r);
+                cout << "  Review created.\n";
+                break;
+            }
+            case 2:
+                PrintReviews();
+                break;
+            case 3: {
+                int idx = PickReview();
+                if (idx == -1) break;
+                cin >> *reviews[idx];
+                cout << "  Review updated.\n";
+                break;
+            }
+            case 4: {
+                int idx = PickReview();
+                if (idx == -1) break;
+                delete reviews[idx];
+                reviews.erase(reviews.begin() + idx);
+                cout << "  Review removed.\n";
+                break;
+            }
+            case 5: {
+                int idx = PickReview();
+                if (idx == -1) break;
+                reviews[idx]->MarkHelpful();
+                cout << "  Review marked as helpful.\n";
+                break;
+            }
+            case 6: {
+                int idx = PickReview();
+                if (idx == -1) break;
+                if (reviews[idx]->isPositive())
+                    cout << "  Review is positive.\n";
+                else
+                    cout << "  Review is not positive.\n";
+                break;
+            }
+            case 7: {
+                cout << "  First review:\n";
+                int a = PickReview();
+                if (a == -1) break;
+                cout << "  Second review:\n";
+                int b = PickReview();
+                if (b == -1) break;
+                if (*reviews[a] == *reviews[b])
+                    cout << "  Same product reviewed.\n";
+                else
+                    cout << "  Different products reviewed.\n";
+                break;
+            }
+            case 8: {
+                for (int i = 0; i < reviews.size(); i++)
+                    for (int j = 0; j + 1 < reviews.size() - i; j++)
+                        if (*reviews[j + 1] < *reviews[j])
+                            swap(reviews[j], reviews[j + 1]);
+                cout << "  Reviews sorted by rating.\n";
+                PrintReviews();
+                break;
+            }
+            default:
+                cout << "  Invalid option.\n";
+        }
+    }
+}
 int main() {
    return 0;
 }
