@@ -429,8 +429,27 @@ ostream& operator<<(ostream& out,const Review& obj) {
         <<obj.helpfulVotes<<"helpful votes"
         <<" \n  Comment: "<<obj.comment;
     return out;
-
 }
+
+class User {
+private:
+    static int noUsers;
+    const int id;
+    char* name;
+    char email[100];
+    char* password;
+    double totalSpent;
+    long LoyaltyPoints;
+    float* spendHistory;
+    int HistorySize;
+    bool isGold;
+public:
+    User();
+    User(char* name,char* email,char* password);
+    User(const User& obj);
+    User& operator=(const User& obj);
+    ~User();
+};
 int main() {
    return 0;
 }
