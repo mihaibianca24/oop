@@ -468,7 +468,8 @@ public:
     void RedeemPoints(long Points);
     float getAvarageSpend() const;
 
-
+    bool operator==(const User& other) const;
+    bool operator<(const User& other) const;
 };
 int User::noUsers=0;
 User::User() : id(++noUsers) {
@@ -618,6 +619,12 @@ float User::getAvarageSpend() const {
     return total/this->HistorySize;
 }
 
+bool User::operator==(const User& other) const {
+    return strcmp(this->email,other.email)==0;
+}
+bool User::operator<(const User& other) const {
+    return this->LoyaltyPoints < other.LoyaltyPoints;
+}
 int main() {
    return 0;
 }
