@@ -315,6 +315,14 @@ Review::Review(char* ProductName,float rating,char* comment,bool isVerified) : i
     this->isVerified=isVerified;
     this->helpfulVotes=0;
 }
+Review::Review(const Review& obj) : id(++noReviews) {
+    this->ProductName = new char[strlen(obj.ProductName)+1];
+    strcpy(this->ProductName,obj.ProductName);
+    this->rating= obj.rating;
+    strcpy(this->comment,obj.comment);
+    this->isVerified=obj.isVerified;
+    this->helpfulVotes=obj.helpfulVotes;
+}
 int main() {
    return 0;
 }
