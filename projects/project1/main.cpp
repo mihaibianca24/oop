@@ -763,6 +763,42 @@ int Menu::PickReview() const {
     if (idx <0 || idx >= (int)reviews.size() ) return -1;
     return idx;
 }
+
+void Menu::run() {
+    while (true) {
+        cout<<"Sephora Account Management System";
+        cout<<"0 - Exit\n";
+        cout<<"1 - Products\n";
+        cout<<"2 - Users\n";
+        cout<<"3 - Reviews\n";
+        cout<<"4 - Assign product to cart\n";
+        cout<<"Option: ";
+
+        int option;
+        cin>>option;
+        cin.ignore();
+
+        switch (option) {
+            case 0:
+                cout<<"Goodbye\n";
+                return;
+            case 1:
+                productMenu();
+                break;
+            case 2:
+                userMenu();
+                break;
+            case 3:
+                reviewMenu();
+                break;
+            case 4:
+                assignMenu();
+                break;
+            default:
+                cout<<"Invalid option.\n";
+        }
+    }
+}
 int main() {
    return 0;
 }
