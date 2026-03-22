@@ -567,7 +567,7 @@ bool User::getIsGold() const {
 int User::getHistorySize() const {
     return this->HistorySize;
 }
-int User::getnoUsers() const {
+int User::getnoUsers() {
     return noUsers;
 }
 
