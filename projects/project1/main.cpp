@@ -306,6 +306,15 @@ Review::Review() : id(++noReviews) {
     this->isVerified=false;
     this->helpfulVotes=0;
 }
+Review::Review(char* ProductName,float rating,char* comment,bool isVerified) : id(++noReviews) {
+    this->ProductName = new char[strlen(ProductName)+1];
+    strcpy(this->ProductName,ProductName);
+    this->rating= (rating >= 1.0f && rating<= 5.0f) ? rating : 0.0f;
+    strncpy(this->comment,comment,255);
+    this->comment[255]='\0';
+    this->isVerified=isVerified;
+    this->helpfulVotes=0;
+}
 int main() {
    return 0;
 }
