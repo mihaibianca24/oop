@@ -474,6 +474,12 @@ public:
 
     friend istream& operator>>(istream& in,User& obj);
     friend ostream& operator<<(ostream& out,const User& obj);
+
+    Cart* getCart() const { return this->cart; }
+    void initCart() {
+        if (this->cart == nullptr)
+            this->cart = new Cart();
+    }
 };
 int User::noUsers=0;
 User::User() : id(++noUsers) {
@@ -901,7 +907,7 @@ void Menu::userMenu() {
 
         int option;
         cin>>option;
-        cin.ignore;
+        cin.ignore();
 
         switch(option) {
             case 0:
@@ -1076,6 +1082,83 @@ void Menu::reviewMenu() {
         }
     }
 }
+
+void Menu::assignMenu() {
+    while (true) {
+        cout << "Assign Menu\n";
+        cout << "0 - Back\n";
+        cout << "1 - Add product to user cart\n";
+        cout << "2 - Remove product from user cart\n";
+        cout << "3 - Checkout user cart\n";
+        cout << "4 - View user cart\n";
+        cout << "Option: ";
+
+        int option;
+        cin >> option;
+        cin.ignore();
+
+        switch (option) {
+            case 0:
+                return;
+            case 1: {
+                cout << "\nSelect user:\n";
+                int uidx = PickUser();
+                if (uidx == -1) break;
+                cout << "\nSelect product:\n";
+                int pidx = PickProduct();
+                if (pidx == -1) break;
+                if (users[uidx]->getCart() == nullptr)
+                    users[uidx]->initCart();
+                *users[uidx]->getCart() += products[pidx];
+                cout << "  Product added to cart.\n";
+                break;
+            }
+            case 2: {
+                cout << "\nSelect user:\n";
+                int uidx = PickUser();
+                if (uidx == -1) break;
+                if (users[uidx]->getCart() == nullptr) {
+                    cout << "  User has no cart.\n";
+                    break;
+                }
+                char name[256];
+                cout << "  Product name to remove: ";
+                cin.getline(name, 256);
+                users[uidx]->getCart()->removeProduct(name);
+                cout << "  Product removed from cart.\n";
+                break;
+            }
+            case 3: {
+                cout << "\nSelect user:\n";
+                int uidx = PickUser();
+                if (uidx == -1) break;
+                if (users[uidx]->getCart() == nullptr) {
+                    cout << "  User has no cart.\n";
+                    break;
+                }
+                if (users[uidx]->getCart()->checkout())
+                    cout << "  Cart checked out successfully.\n";
+                else
+                    cout << "  Cart is empty or already checked out.\n";
+                break;
+            }
+            case 4: {
+                cout << "\nSelect user:\n";
+                int uidx = PickUser();
+                if (uidx == -1) break;
+                if (users[uidx]->getCart() == nullptr)
+                    cout << "  User has no cart.\n";
+                else
+                    cout << *users[uidx]->getCart() << "\n";
+                break;
+            }
+            default:
+                cout << "  Invalid option.\n";
+        }
+    }
+}
 int main() {
+    Menu menu;
+    menu.run();
    return 0;
 }
