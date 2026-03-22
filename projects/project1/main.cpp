@@ -312,6 +312,9 @@ public:
 
     bool operator==(const Review& other) const;
     bool operator<(const Review& other) const;
+
+    friend istream& operator>>(istream& in,Review& obj);
+    friend ostream& operator<<(ostream& out,const Review& obj);
 };
 int Review::noReviews=0;
 Review::Review() : id(++noReviews) {
@@ -391,6 +394,42 @@ bool Review::operator==(const Review& other) const {
 }
 bool Review::operator<(const Review& other) const {
     return this->rating < other.rating;
+}
+istream& operator>>(istream& in,Review& obj) {
+    char buff[256];
+
+    cout<<"Product name: ";
+    in.getline(buff,256);
+    delete[] obj.ProductName;
+    obj.ProductName = new char[strlen(buff)+1];
+    strcpy(obj.ProductName,buff);
+
+    cout<<"Rating : ";
+    in >> obj.rating;
+    if (obj.rating<1.0f || obj.rating>5.0f)
+        obj.rating=0.0f;
+    in.ignore();
+
+    cout<<"Comment : ";
+    in.getline(buff,256);
+    strncpy(obj.comment,buff,255);
+    obj.comment[255]='\0';
+
+    cout<<"Verified Purchase:";
+    in >> obj.isVerified;
+    in.ignore();
+    return in;
+}
+
+ostream& operator<<(ostream& out,const Review& obj) {
+    out << "[Review#"<<obj.id<<"]"
+        <<obj.ProductName<<"| "
+        <<obj.rating<<"/5.0 | "
+        <<(obj.isVerified ? "Verified" : "Not Verified") <<"|"
+        <<obj.helpfulVotes<<"helpful votes"
+        <<" \n  Comment: "<<obj.comment;
+    return out;
+
 }
 int main() {
    return 0;
