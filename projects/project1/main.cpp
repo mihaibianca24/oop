@@ -517,6 +517,11 @@ User& User::operator=(const User& obj) {
     }
     return *this;
 }
+User::~User() {
+    delete[] this->name;
+    delete[] this->password;
+    delete[] this->spendHistory;
+}
 int main() {
    return 0;
 }
