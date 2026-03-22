@@ -450,6 +450,20 @@ public:
     User(const User& obj);
     User& operator=(const User& obj);
     ~User();
+
+    int getId() const;
+    const char* getName() const;
+    const char* getEmail() const;
+    double getTotalSpent() const;
+    long getLoyaltyPoints() const;
+    bool getIsGold() const;
+    int getHistorySize() const;
+    static int getnoUsers();
+
+    void setName(const char* name);
+    void setEmail(const char* email);
+    void setPassword(const char* password);
+
 };
 int User::noUsers=0;
 User::User() : id(++noUsers) {
@@ -530,6 +544,45 @@ User::~User() {
     delete[] this->password;
     delete[] this->spendHistory;
     delete this->cart;
+}
+
+int User::getId() const {
+    return this->id;
+}
+const char* User::getName() const {
+    return this->name;
+}
+const char* User::getEmail() const {
+    return this->email;
+}
+double User::getTotalSpent() const {
+    return this->totalSpent;
+}
+long User::getLoyaltyPoints() const {
+    return this->LoyaltyPoints;
+}
+bool User::getIsGold() const {
+    return this->isGold;
+}
+int User::getHistorySize() const {
+    return this->HistorySize;
+}
+int User::getnoUsers() const {
+    return noUsers;
+}
+
+void User::setName(const char* name) {
+    delete[] this->name;
+    this->name=new char[strlen(name)+1];
+    strcpy(this->name,name);
+}
+void User::setEmail(const char* email) {
+    strcpy(this->email,email);
+}
+void User::setPassword(const char* password) {
+    delete[] this->password;
+    this->password=new char[strlen(password)+1];
+    strcpy(this->password,password);
 }
 int main() {
    return 0;
