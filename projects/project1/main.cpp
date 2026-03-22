@@ -464,6 +464,11 @@ public:
     void setEmail(const char* email);
     void setPassword(const char* password);
 
+    void AddPurchase(float amount);
+    void RedeemPoints(long Points);
+    float getAvarageSpend() const;
+
+
 };
 int User::noUsers=0;
 User::User() : id(++noUsers) {
@@ -584,6 +589,35 @@ void User::setPassword(const char* password) {
     this->password=new char[strlen(password)+1];
     strcpy(this->password,password);
 }
+
+void User::AddPurchase(float amount) {
+    float* temp= new float[this->HistorySize +1];
+    for (int i=0;i<this->HistorySize;i++)
+        temp[i]=this->spendHistory[i];
+    temp[this->HistorySize]=amount;
+    delete[] this->spendHistory;
+    this->spendHistory=temp;
+    this->HistorySize++;
+    this->totalSpent+=amount;
+    this->LoyaltyPoints+= (long)amount /10;
+    if (this->LoyaltyPoints >= 500)
+        this->isGold=true;
+}
+
+void User::RedeemPoints(long points) {
+    if (points<= this->LoyaltyPoints)
+        this->LoyaltyPoints-=points;
+}
+
+float User::getAvarageSpend() const {
+    if ( this-> HistorySize==0)
+        return 0.0f;
+    float total=0.0f;
+    for (int i=0;i<this->HistorySize;i++)
+        total+=this->spendHistory[i];
+    return total/this->HistorySize;
+}
+
 int main() {
    return 0;
 }
