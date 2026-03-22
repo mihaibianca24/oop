@@ -309,6 +309,9 @@ public:
     void MarkHelpful();
     bool isPositive() const;
     static int getTotalReviews();
+
+    bool operator==(const Review& other) const;
+    bool operator<(const Review& other) const;
 };
 int Review::noReviews=0;
 Review::Review() : id(++noReviews) {
@@ -382,6 +385,12 @@ bool Review::isPositive() const {
 }
 int Review::getTotalReviews() {
     return noReviews;
+}
+bool Review::operator==(const Review& other) const {
+    return strcmp(this->ProductName,other.ProductName)==0;
+}
+bool Review::operator<(const Review& other) const {
+    return this->rating < other.rating;
 }
 int main() {
    return 0;
