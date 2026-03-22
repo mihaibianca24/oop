@@ -493,6 +493,30 @@ User::User(const User& obj) : id(++noUsers) {
         this->spendHistory=nullptr;
     }
 }
+User& User::operator=(const User& obj) {
+    if (this == &obj)
+        return *this;
+    delete[] this->name;
+    delete[] this->password;
+    delete[] this->spendHistory;
+    this->name=new char[strlen(obj.name)+1];
+    strcpy(this->name,obj.name);
+    strcpy(this->email,obj.email);
+    this->password=new char[strlen(obj.password)+1];
+    strcpy(this->password,obj.password);
+    this->totalSpent=obj.totalSpent;
+    this->LoyaltyPoints=obj.LoyaltyPoints;
+    this->HistorySize=obj.HistorySize;
+    this->isGold=obj.isGold;
+    if (obj.spendHistory!=nullptr) {
+        this->spendHistory=new float[obj.HistorySize];
+        for (int i=0;i< obj.HistorySize; i++)
+            this->spendHistory[i]=obj.spendHistory[i];
+    } else {
+        this->spendHistory=nullptr;
+    }
+    return *this;
+}
 int main() {
    return 0;
 }
