@@ -450,6 +450,19 @@ public:
     User& operator=(const User& obj);
     ~User();
 };
+int User::noUsers=0;
+User::User() : id(++noUsers) {
+    this->name=new char[4];
+    strcpy(this->name,"N/A");
+    strcpy(this->email,"N/A");
+    this->password=new char[4];
+    strcpy(this->password,"N/A");
+    this->totalSpent=0.0;
+    this->LoyaltyPoints=0;
+    this->spendHistory=nullptr;
+    this->HistorySize=0;
+    this->isGold=false;
+}
 int main() {
    return 0;
 }
