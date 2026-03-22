@@ -334,6 +334,9 @@ Review& Review::operator=(const Review& obj) {
     this->helpfulVotes=obj.helpfulVotes;
     return *this;
 }
+Review::~Review() {
+    delete[] this->ProductName;
+}
 int main() {
    return 0;
 }
