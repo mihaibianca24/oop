@@ -302,6 +302,9 @@ public:
     bool getIsVerified() const;
     int getHelpfulVotes() const;
     const char* getProductName() const;
+
+    void setRating(float rating);
+    void setComment(const char* comment);
 };
 int Review::noReviews=0;
 Review::Review() : id(++noReviews) {
@@ -357,6 +360,14 @@ int Review::getHelpfulVotes() const {
 }
 const char* Review::getProductName() const {
     return this->ProductName;
+}
+void Review::setRating(float rating) {
+    if (rating >= 1.0f && rating<= 5.0f)
+        this->rating=rating;
+}
+void Review::setComment(const char* comment) {
+    strncpy(this->comment,comment,255);
+    this->comment[255]='\0';
 }
 int main() {
    return 0;
