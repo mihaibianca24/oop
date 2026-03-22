@@ -686,6 +686,15 @@ public:
     void reviewMenu();
     void assignMenu();
 };
+
+Menu::~Menu() {
+    for (int i=0;i<products.size();i++)
+        delete products[i];
+    for (int i=0;i<users.size();i++)
+        delete users[i];
+    for (int i=0;i<reviews.size();i++)
+        delete reviews[i];
+}
 int main() {
    return 0;
 }
