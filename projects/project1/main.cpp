@@ -475,6 +475,24 @@ User::User(char* name,char* email,char* password) : id(++noUsers) {
     this->HistorySize=0;
     this->isGold=false;
 }
+User::User(const User& obj) : id(++noUsers) {
+    this->name=new char[strlen(obj.name)+1];
+    strcpy(this->name,obj.name);
+    strcpy(this->email,obj.email);
+    this->password= new char[strlen(obj.password)+1];
+    strcpy(this->password,obj.password);
+    this->totalSpent=obj.totalSpent;
+    this->LoyaltyPoints=obj.LoyaltyPoints;
+    this->HistorySize=obj.HistorySize;
+    this->isGold=obj.isGold;
+    if (obj.spendHistory!=nullptr) {
+        this->spendHistory=new float[obj.HistorySize];
+        for (int i=0; i<obj.HistorySize; i++)
+            this->spendHistory[i]=obj.spendHistory[i];
+    } else {
+        this->spendHistory=nullptr;
+    }
+}
 int main() {
    return 0;
 }
