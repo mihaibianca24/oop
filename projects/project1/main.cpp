@@ -305,6 +305,10 @@ public:
 
     void setRating(float rating);
     void setComment(const char* comment);
+
+    void MarkHelpful();
+    bool isPositive() const;
+    static int getTotalReviews();
 };
 int Review::noReviews=0;
 Review::Review() : id(++noReviews) {
@@ -368,6 +372,16 @@ void Review::setRating(float rating) {
 void Review::setComment(const char* comment) {
     strncpy(this->comment,comment,255);
     this->comment[255]='\0';
+}
+
+void Review::MarkHelpful() {
+    this->helpfulVotes++;
+}
+bool Review::isPositive() const {
+    return this->rating >=4.0f;
+}
+int Review::getTotalReviews() {
+    return noReviews;
 }
 int main() {
    return 0;
