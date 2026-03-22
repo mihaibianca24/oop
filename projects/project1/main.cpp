@@ -799,6 +799,90 @@ void Menu::run() {
         }
     }
 }
+
+void Menu::productMenu() {
+    while (true) {
+        cout<<"Product Menu  \n";
+        cout<<"0 - Back\n";
+        cout<<"1 - Create Product\n";
+        cout<<"2 - List Product\n";
+        cout<<"3 - Edit Product\n";
+        cout<<"4 - Remove Product\n";
+        cout<<"5 - Restock Product\n";
+        cout<<"6 - Compare two products\n";
+        cout<<"7 - Sort products by price\n";
+        cout<<"Option: ";
+
+        int option;
+        cin>>option;
+        cin.ignore();
+
+        switch (option) {
+            case 0:
+                return;
+            case 1: {
+                Product* p= new Product();
+                cin>> *p;
+                products.push_back(p);
+                cout<<"  Product created.\n";
+                break;
+            }
+            case 2:
+                PrintProducts();
+                break;
+            case 3: {
+                int idx= PickProduct();
+                if (idx ==-1) break;
+                cin>> *products[idx];
+                cout<< "Product updated.\n";
+                break;
+            }
+            case 4: {
+                int idx = PickProduct();
+                if (idx == -1) break;
+                delete products[idx];
+                products.erase(products.begin() + idx);
+                cout << "  Product removed.\n";
+                break;
+            }
+            case 5: {
+                int idx = PickProduct();
+                if (idx == -1) break;
+                int quantity;
+                cout << "  Quantity to restock: ";
+                cin >> quantity;
+                cin.ignore();
+                products[idx]->restock(quantity);
+                cout << "  Product restocked.\n";
+                break;
+            }
+            case 6: {
+                cout << "  First product:\n";
+                int a = PickProduct();
+                if (a == -1) break;
+                cout << "  Second product:\n";
+                int b = PickProduct();
+                if (b == -1) break;
+                if (*products[a] == *products[b])
+                    cout << "  Same product.\n";
+                else
+                    cout << "  Different products.\n";
+                break;
+            }
+            case 7:{
+                for (int i = 0; i < products.size(); i++)
+                    for (int j = 0; j + 1 < products.size() - i; j++)
+                        if (*products[j + 1] < *products[j])
+                            swap(products[j], products[j + 1]);
+                cout << "  Products sorted by price.\n";
+                PrintProducts();
+                break;
+            }
+            default:
+                cout<<"Invalid option.\n";
+        }
+    }
+}
 int main() {
    return 0;
 }
