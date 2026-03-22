@@ -140,6 +140,7 @@ private:
 
 public:
     Cart();
+    Cart(bool isCheckedOut);
     Cart(const Cart& obj);
     Cart& operator=(const Cart& obj);
     ~Cart();
@@ -158,6 +159,7 @@ public:
     bool operator!() const;
 
     friend ostream& operator<<(ostream& out, const Cart& obj);
+    friend istream& operator>>(istream& in, const Cart& obj);
 };
 int Cart::noCarts=0;
 Cart::Cart() : id(++noCarts) {
@@ -167,6 +169,12 @@ Cart::Cart() : id(++noCarts) {
     this->isCheckedOut=false;
 }
 
+Cart::Cart(bool isCheckedOut) : id(++noCarts) {
+    this->products=nullptr;
+    this->noProducts=0;
+    this->TotalPrice=0.0;
+    this->isCheckedOut= isCheckedOut;
+}
 Cart::Cart(const Cart &obj) : id(++noCarts) {
     this->noProducts=obj.noProducts;
     this->TotalPrice=obj.TotalPrice;
@@ -193,7 +201,9 @@ Cart::~Cart() {
         delete this->products[i];
     delete[] this->products;
 }
-
+int Cart::getId() const {
+    return this->id;
+}
 double Cart::getTotalPrice() const {
     return TotalPrice;
 }
@@ -281,7 +291,12 @@ ostream& operator<<(ostream& out,const Cart& obj) {
     }
     return out;
 }
-
+istream& operator>>(istream& in, const Cart& obj) {
+    cout<<"Checked out? (1/0): ";
+    in>>obj.isCheckedOut;
+    in.ignore();
+    return in;
+}
 class Review {
 private:
     static int noReviews;
@@ -652,6 +667,7 @@ istream& operator>>(istream& in, User& obj) {
     cout<<"Password: ";
     in.getline(buff,256);
     delete[] obj.password;
+    obj.password=new char[strlen(buff)+1];
     strcpy(obj.password,buff);
 
     return in;
