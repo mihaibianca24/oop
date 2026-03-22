@@ -297,6 +297,15 @@ public:
     Review& operator=(const Review& obj);
     ~Review();
 };
+int Review::noReviews=0;
+Review::Review() : id(++noReviews) {
+    this->ProductName = new char[4];
+    strcpy(this->ProductName,"N/A");
+    this->rating=0.0f;
+    strcpy(this->comment,"N/A");
+    this->isVerified=false;
+    this->helpfulVotes=0;
+}
 int main() {
    return 0;
 }
