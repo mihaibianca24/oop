@@ -443,6 +443,7 @@ private:
     float* spendHistory;
     int HistorySize;
     bool isGold;
+    Cart* cart;
 public:
     User();
     User(char* name,char* email,char* password);
@@ -462,6 +463,7 @@ User::User() : id(++noUsers) {
     this->spendHistory=nullptr;
     this->HistorySize=0;
     this->isGold=false;
+    this->cart=nullptr;
 }
 User::User(char* name,char* email,char* password) : id(++noUsers) {
     this->name=new char[strlen(name)+1];
@@ -474,6 +476,7 @@ User::User(char* name,char* email,char* password) : id(++noUsers) {
     this->spendHistory=nullptr;
     this->HistorySize=0;
     this->isGold=false;
+    this->cart=nullptr;
 }
 User::User(const User& obj) : id(++noUsers) {
     this->name=new char[strlen(obj.name)+1];
@@ -492,6 +495,10 @@ User::User(const User& obj) : id(++noUsers) {
     } else {
         this->spendHistory=nullptr;
     }
+    if (obj.cart!=nullptr)
+        this->cart=new Cart(*obj.cart);
+    else this->cart=nullptr;
+
 }
 User& User::operator=(const User& obj) {
     if (this == &obj)
@@ -499,6 +506,7 @@ User& User::operator=(const User& obj) {
     delete[] this->name;
     delete[] this->password;
     delete[] this->spendHistory;
+    delete this->cart;
     this->name=new char[strlen(obj.name)+1];
     strcpy(this->name,obj.name);
     strcpy(this->email,obj.email);
@@ -521,6 +529,7 @@ User::~User() {
     delete[] this->name;
     delete[] this->password;
     delete[] this->spendHistory;
+    delete this->cart;
 }
 int main() {
    return 0;
