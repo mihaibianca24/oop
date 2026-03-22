@@ -695,6 +695,74 @@ Menu::~Menu() {
     for (int i=0;i<reviews.size();i++)
         delete reviews[i];
 }
+
+void Menu::PrintProducts() const {
+    if (products.empty()) {
+        cout<<"No products registered.\n";
+        return;
+    }
+    for (int i=0;i<products.size();i++)
+        cout<<" "<<i<<". "<<*products[i]<<"\n";
+}
+
+void Menu::PrintUsers() const {
+    if (users.empty()) {
+        cout<<"No users registered.\n";
+        return;
+    }
+    for (int i=0;i<users.size();i++)
+        cout<<" "<<i<<". "<<*users[i]<<"\n";
+}
+
+void Menu::PrintReviews() const {
+    if (reviews.empty()) {
+        cout<<"No reviews registered.\n";
+        return;
+    }
+    for (int i=0;i<reviews.size();i++)
+        cout<<" "<<i<<". "<<*reviews[i]<<"\n";
+}
+
+int Menu::PickProduct() const {
+    if (products.empty()) {
+        cout<<"No products available.\n";
+        return -1;
+    }
+    PrintProducts();
+    cout<<"Pick product index(-1 to cancel):";
+    int idx;
+    cin>>idx;
+    cin.ignore();
+    if (idx <0 || idx >= (int)products.size()) return -1;
+    return idx;
+}
+
+int Menu::PickUser() const {
+    if (users.empty()) {
+        cout<<"No users available.\n";
+        return -1;
+    }
+    PrintUsers();
+    cout<<"Pick user index(-1 to cancel):";
+    int idx;
+    cin>>idx;
+    cin.ignore();
+    if (idx <0 || idx >= (int)users.size() ) return -1;
+    return idx;
+}
+int Menu::PickReview() const {
+    if (reviews.empty()) {
+        cout<<"No reviews available.\n";
+        return -1;
+    }
+    PrintReviews();
+    cout<<"Pick review index(-1 to cancel):";
+    int idx;
+    cin>>idx;
+    cin.ignore();
+    if (idx <0 || idx >= (int)reviews.size() ) return -1;
+    return idx;
+}
 int main() {
    return 0;
 }
