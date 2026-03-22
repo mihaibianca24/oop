@@ -296,6 +296,12 @@ public:
     Review(const Review& obj);
     Review& operator=(const Review& obj);
     ~Review();
+
+    int getId() const;
+    float getRating() const;
+    bool getIsVerified() const;
+    int getHelpfulVotes() const;
+    const char* getProductName() const;
 };
 int Review::noReviews=0;
 Review::Review() : id(++noReviews) {
@@ -336,6 +342,21 @@ Review& Review::operator=(const Review& obj) {
 }
 Review::~Review() {
     delete[] this->ProductName;
+}
+int Review::getId() const {
+    return this->id;
+}
+float Review::getRating() const {
+    return this->rating;
+}
+bool Review::getIsVerified() const {
+    return this->isVerified;
+}
+int Review::getHelpfulVotes() const {
+    return this->helpfulVotes;
+}
+const char* Review::getProductName() const {
+    return this->ProductName;
 }
 int main() {
    return 0;
