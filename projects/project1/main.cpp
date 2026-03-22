@@ -323,6 +323,17 @@ Review::Review(const Review& obj) : id(++noReviews) {
     this->isVerified=obj.isVerified;
     this->helpfulVotes=obj.helpfulVotes;
 }
+Review& Review::operator=(const Review& obj) {
+    if (this==&obj) return *this;
+    delete[] this->ProductName;
+    this->ProductName = new char[strlen(obj.ProductName)+1];
+    strcpy(this->ProductName,obj.ProductName);
+    this->rating= obj.rating;
+    strcpy(this->comment,obj.comment);
+    this->isVerified=obj.isVerified;
+    this->helpfulVotes=obj.helpfulVotes;
+    return *this;
+}
 int main() {
    return 0;
 }
