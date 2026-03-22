@@ -463,6 +463,18 @@ User::User() : id(++noUsers) {
     this->HistorySize=0;
     this->isGold=false;
 }
+User::User(char* name,char* email,char* password) : id(++noUsers) {
+    this->name=new char[strlen(name)+1];
+    strcpy(this->name,name);
+    strcpy(this->email,email);
+    this->password=new char[strlen(password)+1];
+    strcpy(this->password,password);
+    this->totalSpent=0.0;
+    this->LoyaltyPoints=0;
+    this->spendHistory=nullptr;
+    this->HistorySize=0;
+    this->isGold=false;
+}
 int main() {
    return 0;
 }
