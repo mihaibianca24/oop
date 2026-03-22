@@ -470,6 +470,9 @@ public:
 
     bool operator==(const User& other) const;
     bool operator<(const User& other) const;
+
+    friend istream& operator>>(istream& in,User& obj);
+    friend ostream& operator<<(ostream& out,const User& obj);
 };
 int User::noUsers=0;
 User::User() : id(++noUsers) {
@@ -624,6 +627,41 @@ bool User::operator==(const User& other) const {
 }
 bool User::operator<(const User& other) const {
     return this->LoyaltyPoints < other.LoyaltyPoints;
+}
+
+istream& operator>>(istream& in, User& obj) {
+    char buff[256];
+
+    cout<<"Name: ";
+    in.getline(buff,256);
+    delete[] obj.name;
+    obj.name=new char[strlen(buff)+1];
+    strcpy(obj.name,buff);
+
+    cout<<"Email: ";
+    in.getline(buff,256);
+    strcpy(obj.email,buff);
+
+    cout<<"Password: ";
+    in.getline(buff,256);
+    delete[] obj.password;
+    strcpy(obj.password,buff);
+
+    return in;
+}
+
+ostream& operator<<(ostream& out, const User& obj) {
+     out<<" [User#" <<obj.id<<"]"
+        <<obj.name<<" | "
+        <<obj.email<<" | "
+        <<(obj.isGold ? "Gold member" : "Regular member") <<" | "
+        <<"Points: "<<obj.LoyaltyPoints<<" | "
+        <<"Total spent: "<<obj.totalSpent<<" lei ";
+    if (obj.cart!=nullptr)
+        out<< "\n   Cart: "<<*obj.cart;
+    else
+        out<< "\n   Cart: empty";
+    return out;
 }
 int main() {
    return 0;
