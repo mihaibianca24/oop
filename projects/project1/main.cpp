@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string.h>
+#include <vector>
 using namespace std;
 class Product {
 private:
@@ -663,6 +664,28 @@ ostream& operator<<(ostream& out, const User& obj) {
         out<< "\n   Cart: empty";
     return out;
 }
+
+class Menu {
+    vector<Product*> products;
+    vector<User*> users;
+    vector<Review*> reviews;
+
+    void PrintProducts() const;
+    void PrintUsers() const;
+    void PrintReviews() const;
+    int PickProduct() const;
+    int PickUser() const;
+    int PickReview() const;
+
+public:
+    Menu()=default;
+    ~Menu();
+    void run();
+    void productMenu();
+    void userMenu();
+    void reviewMenu();
+    void assignMenu();
+};
 int main() {
    return 0;
 }
